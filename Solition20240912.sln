@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "方案項目", "方案項�
 		Readme.txt = Readme.txt
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{5C884E4C-A10C-4C21-ABE3-B279ACF9A91E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +22,10 @@ Global
 		{4CBC569A-C15D-44DA-BAE7-7E0290EE224B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CBC569A-C15D-44DA-BAE7-7E0290EE224B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4CBC569A-C15D-44DA-BAE7-7E0290EE224B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C884E4C-A10C-4C21-ABE3-B279ACF9A91E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C884E4C-A10C-4C21-ABE3-B279ACF9A91E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C884E4C-A10C-4C21-ABE3-B279ACF9A91E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C884E4C-A10C-4C21-ABE3-B279ACF9A91E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
