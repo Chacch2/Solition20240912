@@ -20,7 +20,12 @@
             <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
                     <li>@Html.ActionLink("首頁", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("API", "Register", "Help", new { area = "" }, new { @class = "nav-link" })</li>
+                </ul>
+
+                <ul class="navbar-nav flex-grow-1">
+                    <li>@Html.ActionLink("首頁", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("註冊會員", "Register", "Members", new { area = "" }, new { @class = "nav-link" })</li>
                 </ul>
             </div>
         </div>

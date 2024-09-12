@@ -163,10 +163,12 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MembersController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Dtos\RegisterDto.cs" />
     <Compile Include="Models\EFModels\AppDbContext.cs" />
     <Compile Include="Models\EFModels\Cart.cs" />
     <Compile Include="Models\EFModels\CartItem.cs" />
@@ -176,6 +178,11 @@
     <Compile Include="Models\EFModels\OrderItem.cs" />
     <Compile Include="Models\EFModels\Product.cs" />
     <Compile Include="Models\Infra\HashUtility.cs" />
+    <Compile Include="Models\interfaces\IMemberRepository.cs" />
+    <Compile Include="Models\Repositories\MemberRepository.cs" />
+    <Compile Include="Models\Result.cs" />
+    <Compile Include="Models\Services\MemberService.cs" />
+    <Compile Include="Models\ViewModels\RegisterVm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -243,6 +250,8 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Members\Register.cshtml" />
+    <Content Include="Views\Members\RegisterConfirm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
