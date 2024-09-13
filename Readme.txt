@@ -35,6 +35,9 @@
 	modify 將about改稱需要登入才能檢視
 
 	modify MemberService,IMemberRepository,新增Login相關成員
-
+[V]做Members/Index 會員中心頁,登入成功之後，導向此頁
+	modify MemberController,add Index action
+	add Views/Members/Index.cshtml(空白範本),填入兩個超連結:"修改個人基本資料","重設密碼"
+[working on ] 實作 修改個人基本資料
 []要做Member/Index 會員中心頁，登入之後導向此頁
 []針對新會員暫時沒作發信功能

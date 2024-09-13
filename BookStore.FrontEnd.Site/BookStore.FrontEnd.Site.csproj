@@ -262,6 +262,7 @@
     <Content Include="Views\Members\ActiveRegister.cshtml" />
     <Content Include="Views\Members\Login.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Members\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
