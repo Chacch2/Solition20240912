@@ -40,7 +40,9 @@ namespace BookStore.FrontEnd.Site.Models.Repositories
         }
         public MemberDto Get(int memberId)
         {
-            var member = _db.Members.FirstOrDefault(x => x.Id == memberId);
+            var member = _db.Members
+                .AsNoTracking()
+                .FirstOrDefault(x => x.Id == memberId);
             if (member == null) return null;
 
             return new MemberDto
@@ -67,17 +69,33 @@ namespace BookStore.FrontEnd.Site.Models.Repositories
 
         public bool IsAccountExist(string account)
         {
-            var member = _db.Members.FirstOrDefault(x => x.Account == account);
+            var member = _db.Members
+                .AsNoTracking()
+                .FirstOrDefault(x => x.Account == account);
 
             return member != null;
         }
 
         public MemberDto Get(string account)
         {
-            var member = _db.Members.FirstOrDefault(x => x.Account == account);
+            var member = _db.Members
+                .AsNoTracking()
+                .FirstOrDefault(x => x.Account == account);
             if (member == null) return null;
 
             return WebApiApplication._mapper.Map<MemberDto>(member);
+        }
+
+        public void Update(MemberDto dto)
+        {
+            Member member = WebApiApplication._mapper.Map<Member>(dto);
+
+            // 更新 member 到 db
+            
+            _db.Entry(member).State = System.Data.Entity.EntityState.Modified;
+
+            _db.SaveChanges();
+
         }
     }
 }

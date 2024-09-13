@@ -16,7 +16,13 @@ namespace BookStore.FrontEnd.Site.Models
             //單向映射
             CreateMap<LoginVm, LoginDto>();
 
-            CreateMap<Member, MemberDto>();
+            CreateMap<Member, MemberDto>().ReverseMap();
+
+            CreateMap<MemberDto,EditProfileVm>();
+
+            CreateMap<EditProfileVm, EditProfileDto>();
+
+            //CreateMap<MemberDto, Member>();
         }
     }
 }

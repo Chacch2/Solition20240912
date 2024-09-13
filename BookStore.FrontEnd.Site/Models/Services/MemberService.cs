@@ -83,5 +83,17 @@ namespace BookStore.FrontEnd.Site.Models.Services
                 : Result.Fail("帳號或密碼錯誤"); // 密碼錯誤
 
         }
+
+        internal void UpdateProfile(EditProfileDto dto)
+        {
+            //update name,email,mobile欄位值
+            //直接叫用EF，或者仍然叫用 IMemberRepository?
+            MemberDto memberInDb = _repo.Get(dto.Id);
+            memberInDb.Name = dto.Name;
+            memberInDb.Email= dto.Email;
+            memberInDb.Mobile= dto.Mobile;
+
+            _repo.Update(memberInDb);
+        }
     }
 }

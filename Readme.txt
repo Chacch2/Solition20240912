@@ -36,8 +36,18 @@
 
 	modify MemberService,IMemberRepository,新增Login相關成員
 [V]做Members/Index 會員中心頁,登入成功之後，導向此頁
+	要加[Authorize]	
 	modify MemberController,add Index action
 	add Views/Members/Index.cshtml(空白範本),填入兩個超連結:"修改個人基本資料","重設密碼"
-[working on ] 實作 修改個人基本資料
-[]要做Member/Index 會員中心頁，登入之後導向此頁
+
+
+[V] 實作 修改個人基本資料
+	modify MembersController,add EditProfile action , 要加[Authorize]
+	add EditProfileVm,EditProfileDto classes
+    不允許修改 account,password
+    增加Mapping config
+	add EditProfile view page
+
+[]實作 變更密碼
+
 []針對新會員暫時沒作發信功能

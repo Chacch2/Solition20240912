@@ -1,5 +1,6 @@
 ﻿using BookStore.FrontEnd.Site.Models;
 using BookStore.FrontEnd.Site.Models.Dtos;
+using BookStore.FrontEnd.Site.Models.Repositories;
 using BookStore.FrontEnd.Site.Models.Services;
 using BookStore.FrontEnd.Site.Models.ViewModels;
 using System;
@@ -16,6 +17,7 @@ namespace BookStore.FrontEnd.Site.Controllers
 {
     public class MembersController : Controller
     {
+        [Authorize]
         public ActionResult Index()
         {
             return View();
@@ -66,6 +68,7 @@ namespace BookStore.FrontEnd.Site.Controllers
         }
 
 
+
         [HttpPost]
         public ActionResult Login(LoginVm vm)
         {
@@ -86,6 +89,51 @@ namespace BookStore.FrontEnd.Site.Controllers
 
             }
             return View();
+
+        }
+
+        [Authorize]
+        public ActionResult EditProfile()
+        {
+            var account = User.Identity.Name;
+            MemberDto dto = new MemberRepository().Get(account);
+
+            EditProfileVm vm = WebApiApplication._mapper.Map<EditProfileVm>(dto);
+            return View(vm);
+
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult EditProfile(EditProfileVm vm) 
+        {
+            string account = User.Identity.Name;
+            Result result = HandleUpdateProfile(account, vm);
+
+            if (result.IsSuccess)
+            {
+                return RedirectToAction("Index"); // 更新成功，回會員中心頁
+            }
+
+            ModelState.AddModelError(string.Empty, result.ErrorMessage);
+            return View(vm);
+
+        }
+
+        private Result HandleUpdateProfile(string account, EditProfileVm vm)
+        {
+            var service = new MemberService();
+            try
+            {
+                EditProfileDto dto = WebApiApplication._mapper.Map<EditProfileDto>(vm);
+                service.UpdateProfile(dto);
+
+                return Result.Success();
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail(ex.Message);
+            }
 
         }
 
