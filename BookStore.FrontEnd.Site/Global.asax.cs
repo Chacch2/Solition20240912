@@ -1,3 +1,5 @@
+using AutoMapper;
+using BookStore.FrontEnd.Site.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +13,7 @@ namespace BookStore.FrontEnd.Site
 {
     public class WebApiApplication : System.Web.HttpApplication
     {
+        public static IMapper _mapper;
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -18,6 +21,16 @@ namespace BookStore.FrontEnd.Site
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+
+            //AutoMapper配置
+            var config = new MapperConfiguration(cfg =>
+            {
+                //使用MappingProfile來設定對應
+                cfg.AddProfile<MappingProfile>();
+            });
+
+            _mapper = config.CreateMapper();
         }
     }
 }

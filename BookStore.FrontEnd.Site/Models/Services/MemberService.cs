@@ -42,5 +42,46 @@ namespace BookStore.FrontEnd.Site.Models.Services
             // todo 寄送驗證信
 
         }
+
+        internal void ActiveRegister(int memberId, string confirmCode)
+        {
+            // 判斷 memberId 和 confirmCode 是否正確，正確就將會員狀態改為已啟用
+            MemberDto dto = _repo.Get(memberId);
+            if (dto== null) throw new Exception("會員不存在");
+            if (dto.ConfirmCode != confirmCode) throw new Exception("驗證碼錯誤");
+            if (dto.IsConfirmed.HasValue &&
+                dto.IsConfirmed.Value) 
+            {
+                throw new Exception("會員已啟用"); 
+            }
+
+            // 啟用會員
+            _repo.Active(memberId);
+
+        }
+
+        internal Result ValidateLogin(LoginDto dto)
+        {
+            // 找出 User
+            MemberDto member = _repo.Get(dto.Account);
+            if (member == null)
+                return Result.Fail("帳號或密碼錯誤"); // 會員不存在
+
+            // 是否已啟用
+            if (!member.IsConfirmed.HasValue || member.IsConfirmed.Value == false)
+            {
+                return Result.Fail("帳號尚未啟用");
+            }
+
+            // 將密碼雜湊後比對
+            string hashPassword = HashUtility.ToSHA256(dto.Password);
+            bool isPasswordCorrect = (hashPassword.CompareTo(member.EncryptedPassword) == 0);
+
+            // 回傳結果
+            return isPasswordCorrect
+                ? Result.Success()
+                : Result.Fail("帳號或密碼錯誤"); // 密碼錯誤
+
+        }
     }
 }
