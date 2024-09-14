@@ -171,6 +171,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Dtos\ChangePasswordDto.cs" />
     <Compile Include="Models\Dtos\EditProfileDto.cs" />
     <Compile Include="Models\Dtos\LoginDto.cs" />
     <Compile Include="Models\Dtos\MemberDto.cs" />
@@ -189,6 +190,7 @@
     <Compile Include="Models\Repositories\MemberRepository.cs" />
     <Compile Include="Models\Result.cs" />
     <Compile Include="Models\Services\MemberService.cs" />
+    <Compile Include="Models\ViewModels\ChangePasswordVm.cs" />
     <Compile Include="Models\ViewModels\EditProfileVm.cs" />
     <Compile Include="Models\ViewModels\LoginVm.cs" />
     <Compile Include="Models\ViewModels\RegisterVm.cs" />
@@ -266,6 +268,7 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Members\Index.cshtml" />
     <Content Include="Views\Members\EditProfile.cshtml" />
+    <Content Include="Views\Members\ChangePassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -95,5 +95,23 @@ namespace BookStore.FrontEnd.Site.Models.Services
 
             _repo.Update(memberInDb);
         }
+
+        internal void UpdatePassword( string account,ChangePasswordDto dto)
+        {
+            var memberInDb = _repo.Get(account);
+            string hashPassword = HashUtility.ToSHA256(dto.OriginPassword);
+            if (hashPassword.CompareTo(memberInDb.EncryptedPassword) != 0)
+            {
+                throw new Exception("原始密碼錯誤");
+            }
+
+            hashPassword = HashUtility.ToSHA256(dto.ChangePassword);
+
+            memberInDb.EncryptedPassword = hashPassword;
+
+            _repo.Update(memberInDb);
+
+
+        }
     }
 }

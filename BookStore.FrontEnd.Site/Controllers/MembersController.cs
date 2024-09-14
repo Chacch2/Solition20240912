@@ -105,7 +105,7 @@ namespace BookStore.FrontEnd.Site.Controllers
 
         [Authorize]
         [HttpPost]
-        public ActionResult EditProfile(EditProfileVm vm) 
+        public ActionResult EditProfile(EditProfileVm vm)
         {
             string account = User.Identity.Name;
             Result result = HandleUpdateProfile(account, vm);
@@ -118,6 +118,43 @@ namespace BookStore.FrontEnd.Site.Controllers
             ModelState.AddModelError(string.Empty, result.ErrorMessage);
             return View(vm);
 
+        }
+
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult ChangePassword(ChangePasswordVm vm)
+        {
+            string account = User.Identity.Name;
+            Result result = HandleChangePassword(account, vm);
+
+            if (result.IsSuccess)
+            {
+                return RedirectToAction("Index"); // 更新成功，回會員中心頁
+            }
+
+            ModelState.AddModelError(string.Empty, result.ErrorMessage);
+            return View(vm);
+        }
+
+        private Result HandleChangePassword(string account, ChangePasswordVm vm)
+        {
+            var service = new MemberService();
+            try
+            {
+                ChangePasswordDto dto = WebApiApplication._mapper.Map<ChangePasswordDto>(vm);
+                service.UpdatePassword(account,dto);
+
+                return Result.Success();
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail(ex.Message);
+            }
         }
 
         private Result HandleUpdateProfile(string account, EditProfileVm vm)
@@ -225,6 +262,8 @@ namespace BookStore.FrontEnd.Site.Controllers
                 return Result.Fail(ex.Message);
             }
         }
+
+
 
     }
 }

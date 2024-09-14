@@ -22,7 +22,7 @@ namespace BookStore.FrontEnd.Site.Models
 
             CreateMap<EditProfileVm, EditProfileDto>();
 
-            //CreateMap<MemberDto, Member>();
+            CreateMap<ChangePasswordVm, ChangePasswordDto>();
         }
     }
 }
