@@ -141,6 +141,17 @@ namespace BookStore.FrontEnd.Site.Controllers
             return View(vm);
         }
 
+        public ActionResult ForgetPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ForgetPassword(ForgetPasswordVm vm)
+        {
+            return View();
+        }
+
         private Result HandleChangePassword(string account, ChangePasswordVm vm)
         {
             var service = new MemberService();
