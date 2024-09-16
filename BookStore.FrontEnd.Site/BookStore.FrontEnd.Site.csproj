@@ -184,6 +184,7 @@
     <Compile Include="Models\EFModels\Order.cs" />
     <Compile Include="Models\EFModels\OrderItem.cs" />
     <Compile Include="Models\EFModels\Product.cs" />
+    <Compile Include="Models\Infra\EmailHelper.cs" />
     <Compile Include="Models\Infra\HashUtility.cs" />
     <Compile Include="Models\interfaces\IMemberRepository.cs" />
     <Compile Include="Models\MappingProfile.cs" />

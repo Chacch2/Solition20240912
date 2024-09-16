@@ -14,7 +14,7 @@
 			add Register.cshtml,RegisterConFirm.cshtml(不必寫action)
 		modify _layout.cshtml,add Register link
 [V]實作 新會員 Email 確認功能
-	信裡的網址，為https://localhost:44300/Members/ActiveRegister?memberId=3&confirmCode=0dbd7446c40849218e71b03d51694f4d
+	信裡的網址，為https://localhost:44300/Members/ActiveRegister?memberId=5&confirmCode=2158987da83449aa95484e98b4f86904
 	modify MembersController, add ActiveRegister Action
     update isConfirmed=1, confirmCode=null
 	add ActiveRegister.cshtml
@@ -54,5 +54,20 @@
 		增加Mapping config
 	add ChangePassword view page
 	modify MemberService,add ChangePassword method
+0913進度=====================================================================================================
+[working on] 實作 忘記密碼/重設密碼
+    add / Models/Infra/EmailHelper class
+        暫時建立 /files/ folder, 用來存放Email 內容
 
+    modify Login.cshtml, add "忘記密碼" link
+    add ForgotPasswordVm, ForgotPasswordDto classes
+        增加Mapping config
+    add MembersController .ForgotPassword action
+        add ForgotPassword.cshtml
+        add ForgotPassworConfirm.cshtml
+
+    add ResetPasswordVm, ResetPassworDto classes, 用來輸入密碼
+    add MemberController .ResetPassword action
+        add ResetPassword.cshtml
+        add ResetPasswordConfirm.cshtml
 []針對新會員暫時沒作發信功能
