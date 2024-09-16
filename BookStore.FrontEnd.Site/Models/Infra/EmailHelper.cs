@@ -10,7 +10,7 @@ namespace BookStore.FrontEnd.Site.Models.Infra
     public class EmailHelper
     {
         // 發件者，可以從 db or web.config 取得
-        private string senderEmail = "goi.webapp@gmail.com";
+        private string senderEmail = "chacch20707@gmail.com";
 
         // 發送重設密碼的郵件
         public void SendForgotPasswordEmail(string url, string name, string email)
