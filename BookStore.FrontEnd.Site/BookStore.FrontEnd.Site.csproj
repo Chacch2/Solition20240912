@@ -196,6 +196,7 @@
     <Compile Include="Models\ViewModels\ForgetPasswordVm.cs" />
     <Compile Include="Models\ViewModels\LoginVm.cs" />
     <Compile Include="Models\ViewModels\RegisterVm.cs" />
+    <Compile Include="Models\ViewModels\ResetPasswordVm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -272,6 +273,8 @@
     <Content Include="Views\Members\EditProfile.cshtml" />
     <Content Include="Views\Members\ChangePassword.cshtml" />
     <Content Include="Views\Members\ForgetPassword.cshtml" />
+    <Content Include="Views\Members\ForgetPasswordConfirm.cshtml" />
+    <Content Include="Views\Members\ResetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

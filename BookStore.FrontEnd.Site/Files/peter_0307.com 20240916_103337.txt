@@ -1,0 +1,8 @@
+﻿from:chacch20707@gmail.com
+
+to:peter@0307.com
+
+subject:重設密碼通知
+
+Hi 潘彼得,
+<br/>請點擊連結：[<a href='https://localhost:44300//Members/ResetPassword?memberId=3&confirmCode=e6e3ed80af43453c82bd47a9adbf7653' target='_blank'>我要重設密碼</a>]，以進行密碼重設。如果您沒有提出此申請，請忽略本信，謝謝

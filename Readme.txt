@@ -55,7 +55,7 @@
 	add ChangePassword view page
 	modify MemberService,add ChangePassword method
 0913進度=====================================================================================================
-[working on] 實作 忘記密碼/重設密碼
+[V] 實作 忘記密碼/重設密碼
     add / Models/Infra/EmailHelper class
         暫時建立 /files/ folder, 用來存放Email 內容
 
@@ -70,4 +70,6 @@
     add MemberController .ResetPassword action
         add ResetPassword.cshtml
         add ResetPasswordConfirm.cshtml
+
+前台購物車
 []針對新會員暫時沒作發信功能

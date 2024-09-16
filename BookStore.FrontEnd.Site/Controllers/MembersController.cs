@@ -1,5 +1,7 @@
 ﻿using BookStore.FrontEnd.Site.Models;
 using BookStore.FrontEnd.Site.Models.Dtos;
+using BookStore.FrontEnd.Site.Models.EFModels;
+using BookStore.FrontEnd.Site.Models.Infra;
 using BookStore.FrontEnd.Site.Models.Repositories;
 using BookStore.FrontEnd.Site.Models.Services;
 using BookStore.FrontEnd.Site.Models.ViewModels;
@@ -7,7 +9,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design.Serialization;
 using System.Linq;
+using System.Security.Principal;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Http.Results;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -149,7 +153,97 @@ namespace BookStore.FrontEnd.Site.Controllers
         [HttpPost]
         public ActionResult ForgetPassword(ForgetPasswordVm vm)
         {
+            if (ModelState.IsValid == false)
+                return View(vm);
+
+            var urlTemplate = Request.Url.Scheme + "://" + //
+                              Request.Url.Authority +"/"+ //
+                              "/Members/ResetPassword?memberId={0}&confirmCode={1}";//
+            
+            var result = ProcessResetPassword(vm.Account, vm.Email, urlTemplate);
+
+            if (result.IsSuccess == false)
+            {
+                ModelState.AddModelError(string.Empty, result.ErrorMessage);
+                return View(vm);
+            }
+
+            return View("ForgetPasswordConfirm");
+
+        }
+
+        public ActionResult ResetPassword(int memberId, string confirmCode)
+        {
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult ResetPassword(ResetPasswordVm vm ,int memberId,string confirmCode)
+        {
+            if (ModelState.IsValid == false)
+                return View(vm);
+
+            Result result = ProcessChangePassword(memberId, confirmCode, vm.Password);
+
+            if (result.IsSuccess == false)
+            {
+                ModelState.AddModelError(string.Empty, result.ErrorMessage);
+                return View(vm);
+            }
+
+            return View("ResetPasswordConfirm");
+        }
+
+        private Result ProcessChangePassword(int memberId, string confirmCode, string password)
+        {
+            var db = new AppDbContext();
+
+            // 檢查memberId, confirmCode是否正確
+            var memberInDb = db.Members.FirstOrDefault(m => m.Id == memberId && m.ConfirmCode == confirmCode);
+
+            if (memberInDb == null)
+                return Result.Fail("找不到對應的會員紀錄");
+
+            var salt = HashUtility.GetSalt();
+            var encryptedPassword = HashUtility.ToSHA256(password, salt);
+
+            memberInDb.EncryptedPassword = encryptedPassword;
+            memberInDb.ConfirmCode = null;
+            
+            db.SaveChanges();
+
+
+            return Result.Success();
+        }
+
+        private Result ProcessResetPassword(string account, string email, string urlTemplate)
+        {
+            var db = new AppDbContext();
+
+            // 檢查account, email是否正確
+            var memberInDb = db.Members.FirstOrDefault(m => m.Account == account);
+
+            if (memberInDb == null)
+                return Result.Fail("帳號或 Email 錯誤");  // 故意不告知確切錯誤原因
+
+            if (string.Compare(email, memberInDb.Email, StringComparison.CurrentCultureIgnoreCase) != 0)
+                return Result.Fail("帳號或 Email 錯誤");  
+
+            // 檢查 IsConfirmed 必須為 true，因為只有已啟用的帳號才能重設密碼
+            if (memberInDb.IsConfirmed == false)
+                return Result.Fail("帳號未啟用，請先完成啟用程序");
+
+            // 更新記錄，填入 confirmCode
+            var confirmCode = Guid.NewGuid().ToString("N");
+            memberInDb.ConfirmCode = confirmCode;
+            db.SaveChanges();
+
+            // 發送 email
+            var url = string.Format(urlTemplate, memberInDb.Id, confirmCode);
+            new EmailHelper().SendForgotPasswordEmail(url, memberInDb.Name, email);
+
+            return Result.Success();
+
         }
 
         private Result HandleChangePassword(string account, ChangePasswordVm vm)
