@@ -92,4 +92,8 @@
 - add Cart.UpdateItem action
 - add UpdateItem.cshtml
 
+[V] 實作結帳
+	add CheckoutVm
+	add CartController.Checkout action
+	add CheckoutConfirm.cshtml
 []針對新會員暫時沒作發信功能

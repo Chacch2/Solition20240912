@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
+using System.Xml.Linq;
 
 namespace BookStore.FrontEnd.Site.Controllers
 {
@@ -46,6 +47,99 @@ namespace BookStore.FrontEnd.Site.Controllers
             UpdateItemQty(account, productId, newQty);
 
             return new EmptyResult();
+        }
+
+        [Authorize]
+        public ActionResult Checkout()
+        {
+            var account = User.Identity.Name;
+            var cart = GetCartInfo(account);
+
+            if (cart.AllowCheckout == false) ViewBag.ErrorMessage = "購物車是空的,無法進行結帳";
+
+           return View();
+                    
+        }
+
+        [Authorize]
+        [HttpPost]
+
+        public ActionResult Checkout(CheckoutVm vm)
+        {
+            if (!ModelState.IsValid) return View(vm);
+
+            var account = User.Identity.Name;
+            var cart = GetCartInfo(account);
+
+            if (cart.AllowCheckout == false)
+            {
+                ModelState.AddModelError(string.Empty, "購物車是空的，無法進行結帳");
+                return View(vm);
+            }
+
+            ProcessCheckout(account, vm);
+            return View("CheckoutConfirm");
+
+        }
+
+        private void ProcessCheckout(string account, CheckoutVm vm)
+        {
+            //建立訂單主檔明細檔
+            CreateOrder(account, vm);
+
+            //清空購物車
+            EmptyCart(account);
+        }
+
+      
+
+        private void CreateOrder(string customerAccount, CheckoutVm vm)
+        {
+            var db = new AppDbContext();
+            var memberId = db.Members.First(m => m.Account == customerAccount).Id;
+
+            // 取得 Cart 資料
+            var cartInfo = GetCartInfo(customerAccount);
+
+            // 新增訂單主檔
+            var order = new Order
+            {
+                MemberId = memberId,
+                Total = cartInfo.Total,
+                CreatedTime = DateTime.Now,
+                Status = 0, // (int)OrderStatus.未處理,
+                RequestRefund = false,
+                Receiver = vm.Receiver,
+                Address = vm.Address,
+                CellPhone = vm.CellPhone
+            };
+
+            // 新增訂單明細檔
+            foreach (var item in cartInfo.CartItems)
+            {
+                order.OrderItems.Add(new OrderItem
+                {
+                    ProductId = item.ProductId,
+                    ProductName = item.Product.Name,
+                    Price = item.Product.Price,
+                    Qty = item.Qty,
+                    SubTotal = item.SubTotal
+                });
+            }
+
+            db.Orders.Add(order);
+            db.SaveChanges();
+
+        }
+
+        private void EmptyCart(string account)
+        {
+            var db = new AppDbContext();
+            var cart = db.Carts.FirstOrDefault(c => c.MemberAccount == account);
+            if(cart == null) return;
+
+            db.Carts.Remove(cart);
+            db.SaveChanges();
         }
 
         private void UpdateItemQty(string account, int productId, int newQty)
